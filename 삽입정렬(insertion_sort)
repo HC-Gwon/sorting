@@ -1,0 +1,28 @@
+import sys
+
+
+# nth 인덱스에서 (n-1)th ~ 1st 인덱스들을 비교하며 본인의 위치를 찾는 것
+def insertion_sort(arr):
+    pos = 0
+    for i in range(len(arr)):
+        now = pos
+        for j in range(pos, -1, -1):
+            if arr[now] < arr[j]:
+                tmp = arr[now]
+                arr[now] = arr[j]
+                arr[j] = tmp
+                now = j
+        pos += 1
+
+    return arr
+
+
+N = int(sys.stdin.readline().rstrip())
+arr = []
+for i in range(N):
+    x = int(sys.stdin.readline().rstrip())
+    arr.append(x)
+
+arr = insertion_sort(arr)
+for i in range(N):
+    print(arr[i])
