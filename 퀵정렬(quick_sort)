@@ -1,0 +1,46 @@
+import sys
+
+
+# 임의로(여기서는 배열의 제일 왼쪽) 정한 pivot을 기준으로 좌측에는 작은 수, 우측에는 큰 수를 넣어두고
+# 그렇게 만들어진 좌측과 우측에 대해서 재귀적으로 반복수행
+# 역으로 정렬된 경우 재귀의 수가 기준치를 넘어가게 되며 시간복잡도도 O(N^2)이 되서 2751번 문제에서 확인 불가능
+def quick_sort(left, right, arr):
+    if left < right:
+        pivotPos = left
+        st = left
+        end = right
+        left += 1
+
+        while left <= right:
+            if arr[right] < arr[pivotPos] < arr[left]:
+                tmp = arr[right]
+                arr[right] = arr[left]
+                arr[left] = tmp
+                left += 1
+                right -= 1
+            else:
+                if arr[left] < arr[pivotPos]:
+                    left += 1
+                if arr[right] > arr[pivotPos]:
+                    right -= 1
+
+        tmp = arr[pivotPos]
+        arr[pivotPos] = arr[right]
+        arr[right] = tmp
+        quick_sort(st, right - 1, arr)
+        quick_sort(right + 1, end, arr)
+
+        return arr
+
+    else:
+        return 0
+
+N = int(sys.stdin.readline().rstrip())
+arr = []
+for i in range(N):
+    x = int(sys.stdin.readline().rstrip())
+    arr.append(x)
+
+arr = quick_sort(0, N-1, arr)
+for i in range(N):
+    print(arr[i])
