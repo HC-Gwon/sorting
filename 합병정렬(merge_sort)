@@ -1,3 +1,4 @@
+# 백준에서 채점시 pypy3로 
 import sys
 
 
