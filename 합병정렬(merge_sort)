@@ -1,0 +1,54 @@
+import sys
+
+
+# 주어진 배열을 낱개로 모두 쪼갠 후 2^n개씩 묶어가며 정렬
+def merge(left, center, right, arr, tmp):
+    i = left
+    j = center+1
+    k = left
+    while (i <= center) and (j <= right):
+        if arr[i] <= arr[j]:
+            tmp[k] = arr[i]
+            i += 1
+        else:
+            tmp[k] = arr[j]
+            j += 1
+        k += 1
+
+    while i <= center:
+        tmp[k] = arr[i]
+        k += 1
+        i += 1
+
+    while j <= right:
+        tmp[k] = arr[j]
+        k += 1
+        j += 1
+
+    for l in range(left, right+1):
+        arr[l] = tmp[l]
+
+    return arr
+
+
+def merge_sort(left, right, arr, tmp):
+    if left < right:
+        center = int((left + right) / 2)
+        merge_sort(left, center, arr, tmp)
+        merge_sort(center+1, right, arr, tmp)
+        arr = merge(left, center, right, arr, tmp)
+
+    return arr
+
+
+N = int(sys.stdin.readline().rstrip())
+arr = []
+tmp = []
+for i in range(N):
+    x = int(sys.stdin.readline().rstrip())
+    arr.append(x)
+    tmp.append(0)
+
+arr = merge_sort(0, N-1, arr, tmp)
+for i in range(N):
+    print(arr[i])
