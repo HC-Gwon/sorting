@@ -1,5 +1,6 @@
 # sorting
 Studying sorting
+백준 정렬 문제 풀이시 참고 - https://www.acmicpc.net/board/view/31887
 
 1. 주어진 n개의 수/문자에 대해서 사용자가 지정한 기준에 맞춰 정렬하여 출력하는 것
    -> 원하는 데이터를 찾기가 쉬워진다.(이진탐색 수행이 원활해진다.)
