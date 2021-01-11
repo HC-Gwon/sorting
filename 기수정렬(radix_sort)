@@ -1,0 +1,49 @@
+# 가장 낮은 자리 수부터 0-9로 정렬하여 가장 높은 자리수까지 정렬하여 정렬하는 방식
+# 숫자에 대해서만 구현
+import sys
+
+N = int(sys.stdin.readline().rstrip())
+arr = []
+maxNbr = 0          # 제일 큰 수 저장
+iteration = 1       # 최고차항 저장
+
+for i in range(N):
+    x = int(sys.stdin.readline().rstrip())
+    arr.append(x)
+    if maxNbr < abs(x):     # 음수가 가장 자리수가 많을 수도 있음
+        maxNbr = abs(x)
+
+while True:
+    if maxNbr % 10 == maxNbr:
+        break
+    else:
+        iteration += 1
+        maxNbr = int(maxNbr / 10)
+
+checkPos = 1        # 해당되는 자리수로 정렬
+for i in range(iteration):
+    tmpPos = [[] for i in range(10)]  # 양수, 1 ~ 9로 끝나는 수들을 각 위치에 저장
+    tmpNeg = [[] for i in range(10)]
+
+    for j in range(N):
+        if arr[j] >= 0:
+            x = (arr[j] // checkPos) % 10
+            tmpPos[x].append(arr[j])
+        else:
+            x = (-arr[j] // checkPos) % 10
+            tmpNeg[x].append(arr[j])
+
+    nbr = 0
+    for j in reversed(tmpNeg):
+        for k in j:
+            arr[nbr] = k
+            nbr += 1
+    for j in tmpPos:
+        for k in j:
+            arr[nbr] = k
+            nbr += 1
+
+    checkPos *= 10
+
+for i in range(N):
+    print(arr[i])
