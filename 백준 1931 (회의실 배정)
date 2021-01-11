@@ -1,0 +1,22 @@
+# 그리디 알고리즘을 사용하여 가장 먼저 끝난 회의뒤에
+# 시작시간이 끝난 시간보다 크거나 같은 회의들을 계속 넣음으로써
+# 회의의 최대 수를 구한다.
+import sys
+
+N = int(sys.stdin.readline().rstrip())
+arr = []
+
+for i in range(N):
+    x, y = map(int, sys.stdin.readline().rstrip().split())
+    arr.append((x, y))
+
+arr.sort(key=lambda x:(x[1],x[0]))
+
+answer = 1
+end = arr[0][1]
+for i in range(1, N):
+    if end <= arr[i][0]:
+        answer += 1
+        end = arr[i][1]
+
+print(answer)
