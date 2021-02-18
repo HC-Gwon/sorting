@@ -54,8 +54,22 @@ Studying sorting
        - 가장 작은자리부터 비교하는 LSD / 가장 높은자리부터 비교하는 MSD 방식이 존재한다.
        - 숫자를 정렬할 때 가장 큰 숫자가 10000이라고 하면 5번의 비교가 필요하므로 시간복잡도는 O(5N)이 된다. (문자의 경우는 문자의 길이)
 
+* 위상정렬
+  - 순서가 정해져 있는 작업을 차례대로 수행할 때 순서를 정해주는데 사용
+    -> 어떤 차례로 가기 위해서는 선행 '조건'이 존재한다.
+  - 사이클이 없는 방향 그래프에서만 사용 가능 (Direct Acyclic Graph)
+  - 순서
+    ㄱ. 선행 조건이 없는 정점을 큐에 삽입
+    ㄴ. 큐에서 원소를 꺼내 해당 정점의 간선들을 모두 제거
+    ㄷ. 제거된 간선에 대해서 선행 조건의 수 정리
+    ㄹ. 다시 ㄱ 과정을 수행
+    ㅁ. 모든 원소를 방문하기 전 큐가 빈다면 cycle이 존재하는 것
+        모든 원소를 방문했으면 큐에서 꺼낸 순서가 위상정렬의 순서
+    p.s. DFS를 사용해서도 
+  - 정점의 개수를 V, 간선의 개수를 E라고 할 때 O(V+E)의 시간복잡도를 가진다.
 
 참고
 1. https://hsp1116.tistory.com/33#:~:text=%EC%A0%95%EB%A0%AC%20%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%EC%9D%80%20%EC%A0%95%EB%A7%90%20%EB%8B%A4%EC%96%91%ED%95%9C%EB%8D%B0,%EC%9D%B8%20%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%EC%9D%84%20%EB%B3%B4%EB%A0%A4%EA%B3%A0%20%ED%95%9C%EB%8B%A4.&text=%EC%84%A0%ED%83%9D%20%EC%A0%95%EB%A0%AC%EC%9D%80%20%EC%9D%B4%EB%A6%84%EC%97%90,%EC%B0%BE%EC%95%84%20%EC%A0%95%EB%A0%AC%ED%95%98%EB%8A%94%20%EB%B0%B0%EC%97%B4%EC%9D%B4%EB%8B%A4.
 2. https://gmlwjd9405.github.io/2018/05/08/algorithm-shell-sort.html
 3. https://www.zerocho.com/category/Algorithm/post/58007c338475ed00152d6c4c
+4. https://m.blog.naver.com/ndb796/221236874984
