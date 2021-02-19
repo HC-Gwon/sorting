@@ -1,0 +1,28 @@
+import sys
+from collections import deque
+
+N, M = map(int, sys.stdin.readline().split())
+height = [[] for i in range(N+1)]
+inDegree = [0 for i in range(N+1)]
+for i in range(M):
+    A, B = map(int, sys.stdin.readline().split())
+    height[A].append(B)
+    inDegree[B] += 1
+
+queue = deque([])
+for i in range(1, N+1):
+    if inDegree[i] == 0:
+        queue.append(i)
+
+while True:
+    # 현 문제에선 상관없으나 모든 정점을 출력하지 않았는데
+    # queue의 길이가 0이 된다면 cycle이 존재한다는 것
+    if len(queue) == 0:
+        break
+
+    x = queue.popleft()
+    print(x, end=" ")
+    for i in height[x]:
+        inDegree[i] -= 1
+        if inDegree[i] == 0:
+            queue.append(i)
