@@ -1,0 +1,58 @@
+import sys
+from collections import deque
+
+K = int(sys.stdin.readline())
+sign = list(sys.stdin.readline().split())
+weight = [[] for j in range(K+1)]
+maxDegree = [0 for i in range(K+1)]
+minDegree = [0 for i in range(K+1)]
+for i in range(K):              # 부등호를 사이에 두고 양 옆 두 숫자의 관계를 
+    if sign[i] == '<':          # 각 정점과 간선의 방향으로 설정
+        X = i+1                 # 정점 : 숫자의 위치 (왼쪽부터 0번)
+        Y = i                   # 간선 : < 인 경우 우측이 우선, > 인 경우 좌측이 우선
+    else:
+        X = i
+        Y = i+1
+    weight[X].append(Y)
+    maxDegree[Y] += 1
+    minDegree[Y] += 1
+
+maxQueue = []
+minQueue = []
+for i in range(K+1):
+    if maxDegree[i] == 0:
+        maxQueue.append(i)
+    if minDegree[i] == 0:
+        minQueue.append(i)
+
+maxAnswer = [0 for i in range(K+1)]
+minAnswer = [0 for i in range(K+1)]
+maxNbr = 9
+minNbr = K
+while True:
+    if len(maxQueue) == 0 or len(minQueue) == 0:
+        break
+
+    maxX = maxQueue.pop(0)
+    minX = minQueue.pop(0)
+    maxAnswer[maxX] = maxNbr
+    minAnswer[minX] = minNbr
+    maxNbr -= 1
+    minNbr -= 1
+
+    for i in weight[maxX]:                # 최댓값의 경우 좌측부터 큰 수가 들어오면 되므로
+        maxDegree[i] -= 1                 # degree가 0인 수들 중에서 가장 작은 수에 높은 수를 대입
+        if maxDegree[i] == 0:
+            maxQueue.append(i)
+    maxQueue.sort()
+    for i in reversed(weight[minX]):      # 최솟값의 경우 우측부터 큰 수가 들어가야 하므로
+        minDegree[i] -= 1                 # degree가 0인 수들 중에서 가장 큰 수에 높은 수를 대입
+        if minDegree[i] == 0:
+            minQueue.append(i)
+    minQueue.sort(reverse=True)
+
+for i in maxAnswer:
+    print(i, end="")
+print()
+for i in minAnswer:
+    print(i, end="")
