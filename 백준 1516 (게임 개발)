@@ -1,0 +1,46 @@
+import sys
+from collections import deque
+
+N = int(sys.stdin.readline())
+time = [0 for i in range(N+1)]
+priority1 = [[] for i in range(N+1)]      # 해당 건물이 지어진 뒤 지어져야 되는 건물
+priority2 = [[] for i in range(N+1)]      # 해당 건물이 지어지기 전에 지어져야 되는 건물
+inDegree = [0 for i in range(N+1)]
+for i in range(N):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    for j in range(len(tmp)):
+        if j == 0:
+            time[i+1] = tmp[j]
+        elif tmp[j] != -1:
+            priority1[tmp[j]].append(i+1)
+            priority2[i+1].append(tmp[j])
+            inDegree[i+1] += 1
+        else:
+            break
+
+queue = deque([])
+for i in range(1, N+1):
+    if inDegree[i] == 0:
+        queue.append(i)
+
+answer = [0 for i in range(N+1)]
+while True:
+    if len(queue) == 0:
+        break
+
+    x = queue.popleft()
+
+    max = 0
+    for i in priority2[x]:                # 우선 지어져야 될 건물들 중
+        if max < answer[i]:               # 가장 오래 걸리는 건물 시간 
+            max = answer[i]
+
+    answer[x] = max + time[x]
+
+    for i in priority1[x]:
+        inDegree[i] -= 1
+        if inDegree[i] == 0:
+            queue.append(i)
+
+for i in range(1, len(answer)):
+    print(answer[i])
