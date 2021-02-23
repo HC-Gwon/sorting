@@ -1,0 +1,34 @@
+import sys
+from collections import deque
+
+N, M = map(int, sys.stdin.readline().split())
+order = [[] for i in range(N+1)]
+inDegree = [0 for i in range(N+1)]
+for i in range(M):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    for j in range(tmp[0]-1):
+        order[tmp[j+1]].append(tmp[j+2])
+        inDegree[tmp[j+2]] += 1
+
+queue = deque([])
+for i in range(1, N+1):
+    if inDegree[i] == 0:
+        queue.append(i)
+
+answer = []
+while True:
+    if len(queue) == 0:
+        break
+
+    x = queue.popleft()
+    answer.append(x)
+    for i in order[x]:
+        inDegree[i] -= 1
+        if inDegree[i] == 0:
+            queue.append(i)
+
+if len(answer) < N:       # 순서를 못정하는 경우
+    print(0)              # 위의 for문이 다 돌기전에 사이클로  종료
+else:
+    for i in range(N):
+        print(answer[i])
